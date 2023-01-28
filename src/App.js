@@ -9,6 +9,7 @@ import LogIn from "./components/LogIn";
 import SignUp from "./components/SignUp";
 import NotFound from "./components/NotFound";
 import { ToastContainer } from "react-toastify";
+import RequireAuth from "./components/RequireAuth";
 function App() {
   return (
     <div>
@@ -42,7 +43,9 @@ function App() {
           path="/private"
           element={
             <CompoWithTitle>
-              <Private></Private>
+              <RequireAuth>
+                <Private></Private>
+              </RequireAuth>
             </CompoWithTitle>
           }
         ></Route>
