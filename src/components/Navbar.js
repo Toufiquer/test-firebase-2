@@ -1,11 +1,22 @@
 import React from "react";
+import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
-import useCustomAuthState from "./hooks/useCustomAuthState";
-import useCustomSignOut from "./hooks/useCustomSignOut";
+import { toast } from "react-toastify";
+import auth from "../firebase";
+import Loading from "./Loading";
+const customId = "custom-id-for-toast";
 const Navbar = () => {
   const customCss = "text-xl font-semibold px-4 cursor-pointer hover:text-green-900 duration-700 hover:underline";
-  const customAuthState = useCustomAuthState();
-  const signOut = useCustomSignOut();
+  const [user, loading, error] = useAuthState(auth);
+  const [signOut, loadingSignOut, errorSignOut] = useSignOut(auth);
+  if (loading || loadingSignOut) {
+    return <Loading />;
+  }
+  if (error || errorSignOut) {
+    toast.error(error?.message || errorSignOut?.message, {
+      toastId: customId,
+    });
+  }
   return (
     <div className="bg-blue-400 py-4 text-white">
       <div className="container mx-auto">
@@ -29,7 +40,7 @@ const Navbar = () => {
                 Private
               </Link>
             </li>
-            {!customAuthState ? (
+            {!user ? (
               <>
                 <li>
                   <Link className={customCss} to="/logIn">

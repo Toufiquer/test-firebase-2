@@ -1,11 +1,15 @@
 import { Button, Label, TextInput } from "flowbite-react";
 import React, { useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import useCustomAuthState from "./hooks/useCustomAuthState";
+import { toast } from "react-toastify";
+import auth from "../firebase";
+import Loading from "./Loading";
 import Social from "./Social";
 
+const customId = "custom-id-for-toast";
 const SignUp = () => {
-  const user = useCustomAuthState();
+  const [user, loading, error] = useAuthState(auth);
   let location = useLocation();
   let navigate = useNavigate();
   let from = location.state?.from?.pathname || "/";
@@ -14,6 +18,14 @@ const SignUp = () => {
       navigate(from);
     }
   }, [user?.uid, from, navigate]);
+  if (loading) {
+    return <Loading />;
+  }
+  if (error) {
+    toast.error(error?.message, {
+      toastId: customId,
+    });
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("submit");
