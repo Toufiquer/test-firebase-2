@@ -8,6 +8,7 @@ import Private from "./components/Private";
 import LogIn from "./components/LogIn";
 import SignUp from "./components/SignUp";
 import NotFound from "./components/NotFound";
+import { ToastContainer } from "react-toastify";
 function App() {
   return (
     <div>
@@ -70,6 +71,8 @@ function App() {
           }
         ></Route>
       </Routes>
+
+      <ToastContainer />
     </div>
   );
 }

@@ -1,9 +1,18 @@
 import { Button, Label, TextInput } from "flowbite-react";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import useCustomAuthState from "./hooks/useCustomAuthState";
 import Social from "./Social";
-
 const LogIn = () => {
+  const user = useCustomAuthState();
+  let location = useLocation();
+  let navigate = useNavigate();
+  let from = location.state?.from?.pathname || "/";
+  useEffect(() => {
+    if (user?.uid) {
+      navigate(from);
+    }
+  }, [user?.uid, from, navigate]);
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("submit");

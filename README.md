@@ -7,3 +7,4 @@ Install details in package.json file
 4. npm i dotenv
 5. npm install -g firebase-tools
 6. npm install --save react-firebase-hooks
+7. npm i react-toastify

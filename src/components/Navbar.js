@@ -1,7 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import useCustomAuthState from "./hooks/useCustomAuthState";
+import useCustomSignOut from "./hooks/useCustomSignOut";
 const Navbar = () => {
   const customCss = "text-xl font-semibold px-4 cursor-pointer hover:text-green-900 duration-700 hover:underline";
+  const customAuthState = useCustomAuthState();
+  const signOut = useCustomSignOut();
   return (
     <div className="bg-blue-400 py-4 text-white">
       <div className="container mx-auto">
@@ -25,16 +29,26 @@ const Navbar = () => {
                 Private
               </Link>
             </li>
-            <li>
-              <Link className={customCss} to="/logIn">
-                Log In
-              </Link>
-            </li>
-            <li>
-              <Link className={customCss} to="/signUp">
-                Sign Up
-              </Link>
-            </li>
+            {!customAuthState ? (
+              <>
+                <li>
+                  <Link className={customCss} to="/logIn">
+                    Log In
+                  </Link>
+                </li>
+                <li>
+                  <Link className={customCss} to="/signUp">
+                    Sign Up
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <li>
+                <Link onClick={() => signOut()} className={customCss} to="/signUp">
+                  Log Out
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       </div>
