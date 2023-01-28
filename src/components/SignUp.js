@@ -1,6 +1,6 @@
 import { Button, Label, TextInput } from "flowbite-react";
-import React, { useEffect } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
+import React, { useEffect, useState } from "react";
+import { useAuthState, useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import auth from "../firebase";
@@ -9,7 +9,10 @@ import Social from "./Social";
 
 const customId = "custom-id-for-toast";
 const SignUp = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [user, loading, error] = useAuthState(auth);
+  const [createUserWithEmailAndPassword, userEmailPass, loadingEmailPass, errorEmailPass] = useCreateUserWithEmailAndPassword(auth);
   let location = useLocation();
   let navigate = useNavigate();
   let from = location.state?.from?.pathname || "/";
@@ -18,34 +21,55 @@ const SignUp = () => {
       navigate(from);
     }
   }, [user?.uid, from, navigate]);
-  if (loading) {
+  if (userEmailPass) {
+    toast.success("Successfully Create Account", {
+      toastId: customId,
+    });
+  }
+  if (loading || loadingEmailPass) {
     return <Loading />;
   }
-  if (error) {
-    toast.error(error?.message, {
+  if (error || errorEmailPass) {
+    toast.error(error?.message || errorEmailPass?.message, {
       toastId: customId,
     });
   }
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("submit");
+    createUserWithEmailAndPassword(email, password);
   };
   return (
     <div className={`min-h-screen bg-blue-200 p-4 grid grid-cols-1 md:grid-cols-2`}>
       <div className="p-4 border-2 border-solid border-blue-600 w-[480px] h-[360px] rounded mx-auto ">
         <h2 className={`text-center text-2xl mb-2 font-semibold`}>Please Registration</h2>
-        <form onClick={handleSubmit} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
             <div className="mb-2 block">
               <Label htmlFor="email1" value="Your email" />
             </div>
-            <TextInput id="email1" type="email" placeholder="name@flowbite.com" required={true} className={`w-full text-black`} />
+            <TextInput
+              onBlur={(e) => {
+                setEmail(e.target.value);
+              }}
+              id="email1"
+              type="email"
+              placeholder="name@flowbite.com"
+              required={true}
+              className={`w-full text-black`}
+            />
           </div>
           <div>
             <div className="mb-2 block">
               <Label htmlFor="password1" value="Your password" />
             </div>
-            <TextInput id="password1" type="password" required={true} />
+            <TextInput
+              onBlur={(e) => {
+                setPassword(e.target.value);
+              }}
+              id="password1"
+              type="password"
+              required={true}
+            />
           </div>
           <Label htmlFor="agree">
             Already Have an Account,{" "}
@@ -54,7 +78,7 @@ const SignUp = () => {
             </Link>
           </Label>
           <Button type="submit" className={`border-2 border-solid border-purple-600 mb-2 p-2 text-black cursor-pointer flex items-center justify-center rounded font-semibold hover:text-white hover:bg-purple-600 duration-300 bg-purple-500 w-full`}>
-            Log In
+            Register
           </Button>
         </form>
       </div>

@@ -55,7 +55,7 @@ const Navbar = () => {
               </>
             ) : (
               <li>
-                <Link onClick={() => signOut()} className={customCss} to="/signUp">
+                <Link onClick={() => signOut()} className={`${customCss} flex items-center justify-center`} to="/signUp">
                   Log Out
                 </Link>
               </li>
