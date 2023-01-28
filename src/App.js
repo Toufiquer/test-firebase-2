@@ -7,6 +7,7 @@ import About from "./components/About";
 import Private from "./components/Private";
 import LogIn from "./components/LogIn";
 import SignUp from "./components/SignUp";
+import NotFound from "./components/NotFound";
 function App() {
   return (
     <div>
@@ -57,6 +58,14 @@ function App() {
           element={
             <CompoWithTitle>
               <SignUp></SignUp>
+            </CompoWithTitle>
+          }
+        ></Route>
+        <Route
+          path="*"
+          element={
+            <CompoWithTitle>
+              <NotFound></NotFound>
             </CompoWithTitle>
           }
         ></Route>

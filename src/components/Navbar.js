@@ -6,7 +6,9 @@ const Navbar = () => {
     <div className="bg-blue-400 py-4 text-white">
       <div className="container mx-auto">
         <div className={`flex justify-between items-center`}>
-          <div className="text-3xl">Toufiquer</div>
+          <Link to="/" className="text-3xl cursor-pointer">
+            Toufiquer
+          </Link>
           <ul className={`flex items-center`}>
             <li>
               <Link className={customCss} to="/">
