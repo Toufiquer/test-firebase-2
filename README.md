@@ -4,4 +4,4 @@
 2. npm install -D tailwindcss
 3. npm install firebase
 4. npm i dotenv
-5. 
+5. npm install -g firebase-tools
