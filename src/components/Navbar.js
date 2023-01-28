@@ -3,10 +3,11 @@ import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import auth from "../firebase";
+import CustomLink from "./CustomLink";
 import Loading from "./Loading";
 const customId = "custom-id-for-toast";
+const customCss = "text-xl font-semibold px-4 cursor-pointer hover:text-green-900 duration-700 hover:underline";
 const Navbar = () => {
-  const customCss = "text-xl font-semibold px-4 cursor-pointer hover:text-green-900 duration-700 hover:underline";
   const [user, loading, error] = useAuthState(auth);
   const [signOut, loadingSignOut, errorSignOut] = useSignOut(auth);
   if (loading || loadingSignOut) {
@@ -26,31 +27,21 @@ const Navbar = () => {
           </Link>
           <ul className={`flex items-center`}>
             <li>
-              <Link className={customCss} to="/">
-                Home
-              </Link>
+              <CustomLink to="/">Home</CustomLink>
             </li>
             <li>
-              <Link className={customCss} to="/about">
-                About
-              </Link>
+              <CustomLink to="/about">About</CustomLink>
             </li>
             <li>
-              <Link className={customCss} to="/private">
-                Private
-              </Link>
+              <CustomLink to="/private">Private</CustomLink>
             </li>
             {!user ? (
               <>
                 <li>
-                  <Link className={customCss} to="/logIn">
-                    Log In
-                  </Link>
+                  <CustomLink to="/logIn">Log In</CustomLink>
                 </li>
                 <li>
-                  <Link className={customCss} to="/signUp">
-                    Sign Up
-                  </Link>
+                  <CustomLink to="/signUp">Sign Up</CustomLink>
                 </li>
               </>
             ) : (
